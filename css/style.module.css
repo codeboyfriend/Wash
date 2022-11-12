@@ -3,11 +3,12 @@
   height: 100vh;
   width: 100vw;
   font-family: "Ubuntu", sans-serif;
-}
-
-.login {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.login {
+  color: #007500;
+  cursor: pointer;
 }/*# sourceMappingURL=style.module.css.map */

@@ -7,7 +7,8 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
-  InputLeftAddon 
+  InputLeftAddon, 
+  Button
 } from '@chakra-ui/react';
 import { 
   PhoneIcon,
@@ -20,37 +21,45 @@ import {
   FaKey 
 } from "react-icons/fa";
 import { useState } from 'react';
+import Logo from '../components/Logo';
 
 export default function Home() {
   const [countryCode, setCountryCode] = useState('+234');
   const [show, setShow] = useState(true);
 
-  const box = {
-    display: 'flex'
-  }
-
   return (
     <div className={styles.container}>
-      <Stack 
+      <Box 
         spacing={3} 
-        sx={box} 
-        className={styles.login}
-      >
+        sx={{
+          maxW:'300px',
+          display: 'flex',
+          flexDir: 'column',
+        }}
+      >      
+        <Logo />
         <Box>
           <Heading 
             fontSize={'1.3rem'}
             fontWeight={'500'}
-            display={'block'}
+            marginBottom={'1.5'}
           >Create an Account</Heading>
         </Box>
 
         <Box>
-          <Text>Kindly fill out your details correctly.</Text>
+          <Text
+            fontSize={'.8rem'}
+            marginBottom={'3'}
+          >Kindly fill out your details correctly.</Text>
         </Box>
 
         <Stack spacing={3}>
           <div>
-            <label>Name</label>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Name</label>
             <InputGroup>
               <InputLeftAddon 
                 pointerEvents={'none'}
@@ -68,7 +77,11 @@ export default function Home() {
           </div>
 
           <div>
-            <label>Email Address</label>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Email Address</label>
             <InputGroup>
               <InputLeftAddon
                 pointerEvents={'none'}
@@ -85,7 +98,11 @@ export default function Home() {
           </div>
 
           <div>
-            <label>Phone Number</label>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Phone Number</label>
             <InputGroup>
               <InputLeftAddon
                 pointerEvents={'none'}
@@ -107,7 +124,11 @@ export default function Home() {
           </div>
 
           <div>
-            <label>Password</label>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Password</label>
             <InputGroup>
               <InputLeftAddon
                 pointerEvents={'none'}
@@ -122,14 +143,27 @@ export default function Home() {
                 }}
               />
               <InputRightAddon
+                cursor={'pointer'}
                 pointerEvents={''}
                 children={show ? <ViewIcon color={'gray.600'} /> : <ViewOffIcon color={'gray.600'} />}
                 onClick={() => setShow(!show)}
               />
             </InputGroup>
           </div>
+
+          <Button colorScheme={'green'} size={'md'} sx={{
+            backgroundColor: '#007500',
+            color: '#fff',
+            fontWeight: '500',
+            fontSize: '.9rem'
+          }}>Sign up</Button>
         </Stack>
-      </Stack>
+
+        <Text sx={{
+          fontSize: '.9rem',
+          marginTop: '1rem'
+        }}>Already have an account? <span className={styles.login}>Login</span></Text>
+      </Box>
     </div>
   )
 }
