@@ -8,6 +8,10 @@
   align-items: center;
 }
 
+.font {
+  font-family: "Ubuntu", sans-serif;
+}
+
 .login {
   color: #007500;
   cursor: pointer;

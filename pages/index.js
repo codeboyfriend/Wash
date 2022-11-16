@@ -162,7 +162,7 @@ export default function Home() {
         <Text sx={{
           fontSize: '.9rem',
           marginTop: '1rem'
-        }}>Already have an account? <span className={styles.login}>Login</span></Text>
+        }}>Already have an account? <a href="/login"><span className={styles.login}>Login</span></a></Text>
       </Box>
     </div>
   )
