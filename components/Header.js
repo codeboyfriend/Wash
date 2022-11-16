@@ -5,7 +5,6 @@ import {
   Avatar,
   AvatarBadge
 } from '@chakra-ui/react';
-import pp from '../public/pp.png';
 import { FaHandsWash } from "react-icons/fa"
 import { useState } from 'react';
 
@@ -66,7 +65,7 @@ const Header = () => {
         </div>
         
         <div className='boxes'>
-          <Avatar size={'sm'} cursor='pointer' name='mking' src={pp}>
+          <Avatar size={'sm'} cursor='pointer' name='mking' src='/pp.png'>
             <AvatarBadge boxSize={'1.25em'} bg='green.500' />
           </Avatar>
         </div>
