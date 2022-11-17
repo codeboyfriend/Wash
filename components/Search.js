@@ -20,6 +20,7 @@ const Search = () => {
             variant={"filled"} 
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
+            placeholder={'search...'}
             sx={{
                 color: "red"
             }}
