@@ -5,23 +5,9 @@ import {
   Avatar,
   AvatarBadge
 } from '@chakra-ui/react';
-import { FaHandsWash } from "react-icons/fa"
-import { useState } from 'react';
+import { FaHandsWash } from "react-icons/fa";
 
 const Header = () => {
-  const [hour, setHour] = useState()
-  const [min, setMin] = useState()
-  // let time = new Date();
-
-  setTimeout(() => {
-    let time = new Date()
-
-    setHour(time.getHours());
-    setMin(time.getMinutes());
-
-  }, 1000);
-
-
 
   return (
     <Box  
@@ -31,14 +17,6 @@ const Header = () => {
         color: '#fff',
         padding: '1rem'
       }}>
-      <Box sx={{
-        marginBottom: '1.5rem'
-      }}>
-        <Text sx={{
-          fontSize: '.9rem'
-        }}>{`${hour}:${min}`}</Text>
-      </Box>
-      
       <Box
         sx={{
           display: 'flex',
