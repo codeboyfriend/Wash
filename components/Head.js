@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 
 import { 
-    FaArrowLeft 
+    FaArrowAltCircleLeft 
 } from 'react-icons/fa';
 
 const Head = () => {
@@ -21,11 +21,11 @@ const Head = () => {
             fontSize: '1.5rem',
             marginBottom: '1rem'
         }}
-      >{<FaArrowLeft />}</Text>
+      >{<FaArrowAltCircleLeft />}</Text>
 
       <Text sx={{
-        fontSize: '1.2rem',
-        marginBottom: '.5rem'
+        fontSize: '1.3rem',
+        marginBottom: '.4rem'
       }}>Washing Preferences</Text>
 
       <Text sx={{
