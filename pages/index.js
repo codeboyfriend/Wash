@@ -59,7 +59,7 @@ export default function Home() {
               style={{
                 fontSize: '.8rem'
               }}
-            >Name</label>
+            >Username</label>
             <InputGroup>
               <InputLeftAddon 
                 pointerEvents={'none'}
@@ -67,7 +67,7 @@ export default function Home() {
               />
               <Input 
                 type='text'
-                placeholder='Enter Full Name' 
+                placeholder='Enter username' 
                 name='name' 
                 sx={{
                   fontSize: '.9rem'

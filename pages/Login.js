@@ -19,9 +19,16 @@ import {
 } from "react-icons/fa";
 import { useState } from 'react';
 import Logo from '../components/Logo';
+import { useContext } from 'react';
+import washieContext from '../context/WashieContext';
 
 const login = () => {
-
+  const { 
+    email,
+    setEmail,
+    password,
+    setPassword
+  } = useContext(washieContext)
   const [show, setShow] = useState(true);
   
   return (
@@ -50,10 +57,12 @@ const login = () => {
               />
               <Input 
                 type='email'
+                value={email}
                 placeholder='washie@gmail.com' 
                 sx={{
                   fontSize: '.9rem'
                 }}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </InputGroup>
           </div>
@@ -76,6 +85,8 @@ const login = () => {
                 sx={{
                   fontSize: '.9rem'
                 }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightAddon
                 cursor={'pointer'}
