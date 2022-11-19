@@ -16,6 +16,7 @@ const Head = () => {
       color: '#fff',
       padding: '1rem'
     }}>
+      <a href='/home'>
       <Text
         sx={{
             fontSize: '1.5rem',
@@ -23,6 +24,7 @@ const Head = () => {
             cursor: 'pointer'
         }}
       >{<FaArrowAltCircleLeft />}</Text>
+      </a>
 
       <Text sx={{
         fontSize: '1.3rem',

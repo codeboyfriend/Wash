@@ -46,6 +46,7 @@ const Service = () => {
         padding: ['.5rem', '1rem']
       }}
     >
+      <a href='/wash'>
       <Box 
         className="boxes"
         sx={boxStyle}
@@ -55,6 +56,7 @@ const Service = () => {
         <Text sx={iconStyles} border="1px solid rgb(255, 192, 203)"><GiWashingMachine /></Text>
         <Text sx={size}>Wash&Iron</Text>
       </Box>
+      </a>
 
       <Box 
         className="boxes"
