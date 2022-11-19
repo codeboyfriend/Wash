@@ -9,7 +9,9 @@ import {
     RadioGroup,
     Stack,
     Textarea,
-    Button 
+    Button,
+    Checkbox,
+    CheckboxGroup 
 } from '@chakra-ui/react';
 
 const Boxes = () => {
@@ -75,21 +77,21 @@ const Boxes = () => {
       <Box sx={box}>
         <Text sx={head}>Other</Text>
 
-        <RadioGroup onChange={setOther} value={other}>
+        <CheckboxGroup onChange={setOther} value={other}>
             <Stack sx={options} marginBottom={'.5rem'} direction='row'>
-                <Radio sx={{
+                <Checkbox sx={{
                     fontSize: '.9rem'
-                }} value='use softner'>Use Softner</Radio>
-                <Radio value='bleaching agent'>Bleaching Agent</Radio>
+                }} value='use softner'>Use Softner</Checkbox>
+                <Checkbox value='bleaching agent'>Bleaching Agent</Checkbox>
             </Stack>
 
             <Stack sx={options} direction='row'>
-                <Radio sx={{
+                <Checkbox sx={{
                     fontSize: '.9rem'
-                }} value='dry heater'>Dry heater</Radio>
-                <Radio value='secented detergent'>Secented detergent</Radio>
+                }} value='dry heater'>Dry heater</Checkbox>
+                <Checkbox value='secented detergent'>Secented detergent</Checkbox>
             </Stack>
-        </RadioGroup>
+        </CheckboxGroup>
       </Box>
 
       <Box sx={box}>
@@ -98,16 +100,13 @@ const Boxes = () => {
       </Box>
 
       <Box sx={box}>
-      <RadioGroup onChange={(e) => {
-        
-        setOrder(!order)}
-      } value={order}>
+      <CheckboxGroup>
             <Stack sx={options} direction='row'>
-                <Radio sx={{
-                    fontSize: '.9rem'
-                }} value='customize order'>Customize Order</Radio>
+                <Checkbox onChange={(e) => setOrder(e.currentTarget.checked)} sx={{
+                    fontSize: '.6rem'
+                }}>Customize Order</Checkbox>
             </Stack>
-        </RadioGroup>              
+        </CheckboxGroup>              
       </Box>
 
       <Button colorScheme={'green'} size={'md'} sx={{

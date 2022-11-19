@@ -20,5 +20,8 @@
 }
 
 .rightBanner {
-    background-image: url('/JFS_9581.jpg');
+    background-image: url(../public/JFS_9581.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }

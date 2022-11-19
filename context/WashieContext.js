@@ -9,7 +9,7 @@ export function WashieProvider ({ children }) {
     const [temperature, setTemperature] = useState("");
     const [color, setColor] = useState("");
     const [other, setOther] = useState("");
-    const [order, setOrder] = useState("");
+    const [order, setOrder] = useState(false);
 
     return (
         <washieContext.Provider value = {{

@@ -35,11 +35,7 @@ const Banner = () => {
         w: '50%',
         h: '200px'
       }}>
-        {/* <Image style={{
-          height: ['200px', '300px'],
-          // width: '100%',
-          objectFit: 'cover'
-        }} src='/banner.jpg' alt="" /> */}
+        Testing
       </Box>
     </Box>
   )
