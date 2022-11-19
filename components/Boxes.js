@@ -16,14 +16,15 @@ import {
 
 const Boxes = () => {
     const {
-        other,
-        setOther,
         color,
         setColor,
         temperature,
         setTemperature,
-        order,
-        setOrder
+        setOrder,
+        setSoftner,
+        setAgent,
+        setHeater,
+        setDetergent
     } = useContext(washieContext);
 
     const box = {
@@ -53,10 +54,16 @@ const Boxes = () => {
 
         <RadioGroup onChange={setColor} value={color}>
         <Stack sx={options} direction='row'>
-                <Radio sx={{
-                    fontSize: '.7rem'
-                }} value='colored clothes'>Colored clothes</Radio>
-                <Radio value='white clothes'>White clothes</Radio>
+                <Radio 
+                    size='sm' 
+                    colorScheme="green"  
+                    value='colored clothes'
+                >Colored clothes</Radio>
+                <Radio 
+                    size='sm' 
+                    colorScheme="green" 
+                    value='white clothes'
+                >White clothes</Radio>
             </Stack>
         </RadioGroup>
       </Box>
@@ -66,10 +73,16 @@ const Boxes = () => {
 
         <RadioGroup onChange={setTemperature} value={temperature}>
             <Stack sx={options} direction='row'>
-                <Radio sx={{
-                    fontSize: '.9rem'
-                }} value='celius degree'>Celius degree</Radio>
-                <Radio value='fahrenhite degree'>Fahrenhite degree</Radio>
+                <Radio 
+                    size='sm' 
+                    colorScheme="green" 
+                    value='celius degree'
+                >Celius degree</Radio>
+                <Radio 
+                    size='sm' 
+                    colorScheme="green" 
+                    value='fahrenhite degree'
+                >Fahrenhite degree</Radio>
             </Stack>
         </RadioGroup>
       </Box>
@@ -77,19 +90,31 @@ const Boxes = () => {
       <Box sx={box}>
         <Text sx={head}>Other</Text>
 
-        <CheckboxGroup onChange={setOther} value={other}>
+        <CheckboxGroup>
             <Stack sx={options} marginBottom={'.5rem'} direction='row'>
-                <Checkbox sx={{
-                    fontSize: '.9rem'
-                }} value='use softner'>Use Softner</Checkbox>
-                <Checkbox value='bleaching agent'>Bleaching Agent</Checkbox>
+                <Checkbox 
+                    size='sm' 
+                    colorScheme="green"
+                    onChange={(e) => setSoftner(e.currentTarget.checked)}
+                >Use Softner</Checkbox>
+                <Checkbox 
+                    size='sm' 
+                    colorScheme="green"
+                    onChange={(e) => setAgent(e.currentTarget.checked)}
+                >Bleaching Agent</Checkbox>
             </Stack>
 
             <Stack sx={options} direction='row'>
-                <Checkbox sx={{
-                    fontSize: '.9rem'
-                }} value='dry heater'>Dry heater</Checkbox>
-                <Checkbox value='secented detergent'>Secented detergent</Checkbox>
+                <Checkbox 
+                    size='sm' 
+                    colorScheme="green" 
+                    onChange={(e) => setHeater(e.currentTarget.checked)}
+                >Dry heater</Checkbox>
+                <Checkbox  
+                    size='sm' 
+                    colorScheme="green"
+                    onChange={(e) => setDetergent(e.currentTarget.checked)}
+                >Secented detergent</Checkbox>
             </Stack>
         </CheckboxGroup>
       </Box>
@@ -102,7 +127,11 @@ const Boxes = () => {
       <Box sx={box}>
       <CheckboxGroup>
             <Stack sx={options} direction='row'>
-                <Checkbox onChange={(e) => setOrder(e.currentTarget.checked)} sx={{
+                <Checkbox 
+                    size='sm' 
+                    colorScheme="green" 
+                    onChange={(e) => setOrder(e.currentTarget.checked)} 
+                    sx={{
                     fontSize: '.6rem'
                 }}>Customize Order</Checkbox>
             </Stack>

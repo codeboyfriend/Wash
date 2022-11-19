@@ -8,7 +8,10 @@ export function WashieProvider ({ children }) {
     const [password, setPassword] = useState("");
     const [temperature, setTemperature] = useState("");
     const [color, setColor] = useState("");
-    const [other, setOther] = useState("");
+    const [softner, setSoftner] = useState(false);
+    const [agent, setAgent] = useState(false);
+    const [heater, setHeater] = useState(false);
+    const [detergent, setDetergent] = useState(false);
     const [order, setOrder] = useState(false);
 
     return (
@@ -23,10 +26,11 @@ export function WashieProvider ({ children }) {
             setTemperature,
             color,
             setColor,
-            other,
-            setOther,
-            order,
-            setOrder
+            setOrder,
+            setAgent,
+            setHeater,
+            setDetergent,
+            setSoftner
         }}>
             { children }
         </washieContext.Provider>
