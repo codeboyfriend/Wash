@@ -19,7 +19,8 @@ const Head = () => {
       <Text
         sx={{
             fontSize: '1.5rem',
-            marginBottom: '1rem'
+            marginBottom: '1rem',
+            cursor: 'pointer'
         }}
       >{<FaArrowAltCircleLeft />}</Text>
 

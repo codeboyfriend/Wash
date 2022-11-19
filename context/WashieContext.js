@@ -6,6 +6,7 @@ export function WashieProvider ({ children }) {
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [value, setValue] = useState("");
 
     return (
         <washieContext.Provider value = {{
@@ -14,7 +15,9 @@ export function WashieProvider ({ children }) {
             password,
             setPassword,
             email,
-            setEmail
+            setEmail,
+            value,
+            setValue
         }}>
             { children }
         </washieContext.Provider>
