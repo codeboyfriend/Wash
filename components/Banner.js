@@ -1,7 +1,6 @@
 import { 
   Box,
-  Text,
-  Image 
+  Text
 } from "@chakra-ui/react";
 import styles from '../css/style.module.css';
 
@@ -31,11 +30,12 @@ const Banner = () => {
           fontSize: ['.8rem', '1rem']
         }}>Discount on all orders from 1st of December - 31 of January </Text>
       </Box>
-      <Box className="rightBanner" sx={{
+      <Box className={styles.rightBanner} sx={{
         w: '50%',
-        h: '200px'
+        color: 'white',
+        fontSize: ['1.2rem', '2rem']
       }}>
-        Testing
+        Washie
       </Box>
     </Box>
   )

@@ -13,6 +13,7 @@ export function WashieProvider ({ children }) {
     const [heater, setHeater] = useState(false);
     const [detergent, setDetergent] = useState(false);
     const [order, setOrder] = useState(false);
+    const [note, setNote] = useState("");
 
     return (
         <washieContext.Provider value = {{
@@ -30,7 +31,9 @@ export function WashieProvider ({ children }) {
             setAgent,
             setHeater,
             setDetergent,
-            setSoftner
+            setSoftner,
+            note,
+            setNote
         }}>
             { children }
         </washieContext.Provider>

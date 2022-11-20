@@ -24,7 +24,9 @@ const Boxes = () => {
         setSoftner,
         setAgent,
         setHeater,
-        setDetergent
+        setDetergent,
+        note,
+        setNote
     } = useContext(washieContext);
 
     const box = {
@@ -121,7 +123,15 @@ const Boxes = () => {
 
       <Box sx={box}>
         <Text sx={head}>Additional note</Text>
-        <Textarea></Textarea>
+        <Textarea
+            value={note}
+            onChange={(e) =>setNote(e.target.value)}
+            placeholder="Enter short note"
+            variant={'unstyled'}
+            sx={{
+                fontSize: '.9rem'
+            }}
+        ></Textarea>
       </Box>
 
       <Box sx={box}>

@@ -6,9 +6,13 @@ import {
   AvatarBadge
 } from '@chakra-ui/react';
 import { FaHandsWash } from "react-icons/fa";
+import { useContext } from 'react';
+import washieContext from '../context/WashieContext';
 
 const Header = () => {
-
+  const { 
+    userName
+  } = useContext(washieContext)
   return (
     <Box  
       className={styles.font}
@@ -33,7 +37,7 @@ const Header = () => {
           }}>Hello, <span style={{
             fontSize: '1.4rem',
             fontWeight: '500',
-          }}>Mking</span> <FaHandsWash style={{
+          }}>{userName}</span> <FaHandsWash style={{
             fontSize: '1.4rem',
             display: 'inline'
           }} /></Text>

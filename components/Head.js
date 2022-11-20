@@ -8,6 +8,8 @@ import {
     FaArrowAltCircleLeft 
 } from 'react-icons/fa';
 
+import Link from 'next/link';
+
 const Head = () => {
   return (
     <Box className={styles.font}
@@ -16,15 +18,15 @@ const Head = () => {
       color: '#fff',
       padding: '1rem'
     }}>
-      <a href='/home'>
-      <Text
-        sx={{
+      <Link href='/home'>
+        <Text
+          sx={{
             fontSize: '1.5rem',
             marginBottom: '1rem',
             cursor: 'pointer'
-        }}
-      >{<FaArrowAltCircleLeft />}</Text>
-      </a>
+          }}
+        >{<FaArrowAltCircleLeft />}</Text>
+      </Link>
 
       <Text sx={{
         fontSize: '1.3rem',

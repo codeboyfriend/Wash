@@ -1,11 +1,11 @@
 import styles from '../css/style.module.css';
 import {
-    Box,
-    Text
+  Box,
+  Text
 } from '@chakra-ui/react';
 
 import { 
-    FaArrowAltCircleLeft 
+  FaArrowAltCircleLeft 
 } from 'react-icons/fa';
 
 const IronHead = () => {

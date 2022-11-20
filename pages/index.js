@@ -22,10 +22,17 @@ import {
 } from "react-icons/fa";
 import { useState } from 'react';
 import Logo from '../components/Logo';
+import Link from 'next/link';
+import { useContext } from 'react';
+import washieContext from '../context/WashieContext';
 
 export default function Home() {
   const [countryCode, setCountryCode] = useState('+234');
   const [show, setShow] = useState(true);
+  const {
+    userName,
+    setUserName
+  } = useContext(washieContext);
 
   return (
     <div className={styles.container}>
@@ -69,6 +76,8 @@ export default function Home() {
                 type='text'
                 placeholder='Enter username' 
                 name='name' 
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 sx={{
                   fontSize: '.9rem'
                 }}
@@ -151,18 +160,20 @@ export default function Home() {
             </InputGroup>
           </div>
 
-          <Button colorScheme={'green'} size={'md'} sx={{
-            backgroundColor: '#007500',
-            color: '#fff',
-            fontWeight: '500',
-            fontSize: '.9rem'
-          }}>Sign up</Button>
+          <Link href='/home'>
+            <Button colorScheme={'green'} size={'md'} sx={{
+              backgroundColor: '#007500',
+              color: '#fff',
+              fontWeight: '500',
+              fontSize: '.9rem'
+            }}>Sign up</Button>
+          </Link>
         </Stack>
 
         <Text sx={{
           fontSize: '.9rem',
           marginTop: '1rem'
-        }}>Already have an account? <a href="/login"><span className={styles.login}>Login</span></a></Text>
+        }}>Already have an account? <Link href="/login"><span className={styles.login}>Login</span></Link></Text>
       </Box>
     </div>
   )
