@@ -1,6 +1,7 @@
 import { useContext  } from 'react';
 import washieContext from '../context/WashieContext';
 import styles from '../css/style.module.css';
+import Link from 'next/link';
 
 import {
     Box,
