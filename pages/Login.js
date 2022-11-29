@@ -1,4 +1,8 @@
+import { useState, useContext } from 'react';
+import Logo from '../components/Logo';
+import washieContext from '../context/WashieContext';
 import styles from '../css/style.module.css';
+
 import { 
   Box,
   Text, 
@@ -7,22 +11,27 @@ import {
   InputGroup,
   InputRightAddon,
   InputLeftAddon, 
-  Button
+  Button,
+  Spinner
 } from '@chakra-ui/react';
+
 import {
   ViewIcon,
   ViewOffIcon
 } from "@chakra-ui/icons";
+
 import { 
   FaEnvelope,
   FaKey 
 } from "react-icons/fa";
-import { useState } from 'react';
-import Logo from '../components/Logo';
-import { useContext } from 'react';
-import washieContext from '../context/WashieContext';
+
+import { useRouter } from 'next/router';
+import { app } from '../firebaseConfig';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const login = () => {
+  let auth = getAuth();
+  const router = useRouter();
   const { 
     email,
     setEmail,
@@ -30,6 +39,25 @@ const login = () => {
     setPassword
   } = useContext(washieContext)
   const [show, setShow] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const signinUser = () => {
+    setIsLoading(true);
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        router.push('/home');
+        setIsLoading(false);
+        setEmail('');
+        setPassword('');
+      })
+      .catch((error) => {
+        console.log(error.message)
+        setEmail('');
+        setPassword('');
+        setIsLoading(false);
+      })
+  }
   
   return (
     <div className={styles.container}>
@@ -97,7 +125,7 @@ const login = () => {
             </InputGroup>
           </div>
 
-          <Button colorScheme={'green'} size={'md'} sx={{
+          <Button onClick={() => signinUser()} colorScheme={'green'} size={'md'} sx={{
             backgroundColor: '#007500',
             color: '#fff',
             fontWeight: '500',
@@ -109,6 +137,28 @@ const login = () => {
           fontSize: '.9rem',
           marginTop: '1rem'
         }}>Don't have an account? <a href="/"><span className={styles.login}>Sign up</span></a></Text>
+
+        {
+          isLoading && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='rgb(0, 117, 0)'
+              size='xl'
+            />
+          </Box>
+        }
       </Box>
     </div>
   )

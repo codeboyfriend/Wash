@@ -1,4 +1,10 @@
+import { useState, useContext } from 'react';
 import styles from '../css/style.module.css';
+import Logo from '../components/Logo';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import washieContext from '../context/WashieContext';
+
 import { 
   Box, 
   Heading, 
@@ -8,31 +14,69 @@ import {
   InputGroup,
   InputRightAddon,
   InputLeftAddon, 
-  Button
+  Button,
+  Spinner,
+  useToast
 } from '@chakra-ui/react';
+
 import { 
   PhoneIcon,
   ViewIcon,
   ViewOffIcon,
   EditIcon 
 } from "@chakra-ui/icons";
+
 import { 
   FaEnvelope,
   FaKey 
 } from "react-icons/fa";
-import { useState } from 'react';
-import Logo from '../components/Logo';
-import Link from 'next/link';
-import { useContext } from 'react';
-import washieContext from '../context/WashieContext';
+
+import { app } from '../firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Home() {
+  let auth = getAuth();
+  const router = useRouter();
   const [countryCode, setCountryCode] = useState('+234');
   const [show, setShow] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [msg, setMsg] = useState('');
+  const toast = useToast();
+
   const {
     userName,
-    setUserName
+    setUserName,
+    email,
+    setEmail,
+    password,
+    setPassword
   } = useContext(washieContext);
+
+  const createUser = () => {
+    if (password.length >= 8) {
+      setIsLoading(true);
+    
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          router.push('/home');
+          setIsLoading(false);
+          setEmail('');
+          setPassword('');
+        })
+        .catch((error) => {
+          console.log(error.message)
+          setEmail('');
+          setPassword('');
+          setIsLoading(false);
+        })
+    } else {
+      // setTimeout(setMsg('Password is too short'), 1000)
+      setShowToast(true);
+      setMsg('Password is too short');
+      console.log('password is too short');
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -102,6 +146,8 @@ export default function Home() {
                 sx={{
                   fontSize: '.9rem'
                 }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </InputGroup>
           </div>
@@ -150,6 +196,8 @@ export default function Home() {
                 sx={{
                   fontSize: '.9rem'
                 }}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <InputRightAddon
                 cursor={'pointer'}
@@ -160,20 +208,50 @@ export default function Home() {
             </InputGroup>
           </div>
 
-          <Link href='/home'>
-            <Button colorScheme={'green'} size={'md'} sx={{
+          <Button onClick={() => createUser()} colorScheme={'green'} size={'md'} sx={{
               backgroundColor: '#007500',
               color: '#fff',
               fontWeight: '500',
               fontSize: '.9rem'
             }}>Sign up</Button>
-          </Link>
         </Stack>
 
         <Text sx={{
           fontSize: '.9rem',
           marginTop: '1rem'
-        }}>Already have an account? <Link href="/login"><span className={styles.login}>Login</span></Link></Text>
+        }}>Already have an account? <Link href="/login"><span className={styles.login}>Login</span></Link>
+        </Text>
+
+        {
+          isLoading && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='rgb(0, 117, 0)'
+              size='xl'
+            />
+          </Box>
+        }
+
+        {
+          showToast && toast({
+            description: "Password is too short",
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+          })
+        }
       </Box>
     </div>
   )
