@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Logo from '../components/Logo';
 import washieContext from '../context/WashieContext';
 import styles from '../css/style.module.css';
@@ -12,7 +12,10 @@ import {
   InputRightAddon,
   InputLeftAddon, 
   Button,
-  Spinner
+  Spinner,
+  Alert,
+  AlertIcon,
+  AlertDescription,
 } from '@chakra-ui/react';
 
 import {
@@ -27,36 +30,59 @@ import {
 
 import { useRouter } from 'next/router';
 import { app } from '../firebaseConfig';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
 
 const login = () => {
   let auth = getAuth();
+  const currUser = auth.currentUser;
   const router = useRouter();
   const { 
     email,
     setEmail,
     password,
-    setPassword
+    setPassword,
+    setUser
   } = useContext(washieContext)
   const [show, setShow] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [msg, setMsg] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        setUser(currUser)
+      } else {
+        setUser('error')
+      }
+    })
+  }, [])
+  
 
   const signinUser = () => {
-    setIsLoading(true);
+    if (password.length >= 8) {
+      setIsLoading(true);
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        router.push('/home');
-        setIsLoading(false);
-        setEmail('');
-        setPassword('');
-      })
-      .catch((error) => {
-        console.log(error.message)
-        setEmail('');
-        setPassword('');
-        setIsLoading(false);
-      })
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          router.push('/home');
+          setIsLoading(false);
+          setEmail('');
+          setPassword('');
+        })
+        .catch(() => {
+          setMsg(true);
+            setTimeout(function () {
+              setMsg(false)
+            }, 1500)
+          setIsLoading(false);
+        })
+    } else {
+      setShowError(true);
+      setTimeout(function () {
+        setShowError(false)
+      }, 1000)
+    }
   }
   
   return (
@@ -157,6 +183,50 @@ const login = () => {
               color='rgb(0, 117, 0)'
               size='xl'
             />
+          </Box>
+        }
+
+        {showError && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Alert 
+              status='error' 
+              variant={'solid'}
+              w={'300px'}
+            >
+              <AlertIcon />
+              <AlertDescription>Password is too short</AlertDescription>
+            </Alert>
+          </Box>
+        }
+
+        {msg && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Alert 
+              status='error' 
+              variant={'solid'}
+              w={'300px'}
+            >
+              <AlertIcon />
+              <AlertDescription>Failed to login in! Try again.</AlertDescription>
+            </Alert>
           </Box>
         }
       </Box>

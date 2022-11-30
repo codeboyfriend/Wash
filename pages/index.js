@@ -16,7 +16,9 @@ import {
   InputLeftAddon, 
   Button,
   Spinner,
-  useToast
+  Alert,
+  AlertIcon,
+  AlertDescription,
 } from '@chakra-ui/react';
 
 import { 
@@ -41,8 +43,7 @@ export default function Home() {
   const [show, setShow] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [msg, setMsg] = useState('');
-  const toast = useToast();
+  const [msg, setMsg] = useState(false);
 
   const {
     userName,
@@ -50,11 +51,13 @@ export default function Home() {
     email,
     setEmail,
     password,
-    setPassword
+    setPassword,
+    phoneNo,
+    setPhoneNo
   } = useContext(washieContext);
 
   const createUser = () => {
-    if (password.length >= 8) {
+    if (password.length >= 8 && userName.length >= 3 && phoneNo.length > 0 && email !== '') {
       setIsLoading(true);
     
       createUserWithEmailAndPassword(auth, email, password)
@@ -63,18 +66,20 @@ export default function Home() {
           setIsLoading(false);
           setEmail('');
           setPassword('');
+          setPhoneNo('');
         })
-        .catch((error) => {
-          console.log(error.message)
-          setEmail('');
-          setPassword('');
+        .catch(() => {
+          setMsg(true);
+          setTimeout(function () {
+            setMsg(false)
+          }, 1500)
           setIsLoading(false);
         })
     } else {
-      // setTimeout(setMsg('Password is too short'), 1000)
       setShowToast(true);
-      setMsg('Password is too short');
-      console.log('password is too short');
+      setTimeout(function () {
+        setShowToast(false)
+      }, 1000)
     }
   }
 
@@ -118,7 +123,7 @@ export default function Home() {
               />
               <Input 
                 type='text'
-                placeholder='Enter username' 
+                placeholder='at least 3 characters' 
                 name='name' 
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
@@ -170,6 +175,8 @@ export default function Home() {
                 sx={{
                   fontSize: '.9rem'
                 }}
+                value={phoneNo}
+                onChange={(e) => setPhoneNo(e.target.value)}
               />
               <InputRightAddon
                 pointerEvents={'none'}
@@ -244,13 +251,48 @@ export default function Home() {
           </Box>
         }
 
-        {
-          showToast && toast({
-            description: "Password is too short",
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-          })
+        {showToast && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Alert 
+              status='error' 
+              variant={'solid'}
+              w={'300px'}
+            >
+              <AlertIcon />
+              <AlertDescription>Enter neccessary information</AlertDescription>
+            </Alert>
+          </Box>
+        }
+
+        {msg && <Box sx={{
+            w: '100vw',
+            h: '100vh',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Alert 
+              status='error' 
+              variant={'solid'}
+              w={'300px'}
+            >
+              <AlertIcon />
+              <AlertDescription>An error occured! Try again.</AlertDescription>
+            </Alert>
+          </Box>
         }
       </Box>
     </div>

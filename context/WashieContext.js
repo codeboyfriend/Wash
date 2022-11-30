@@ -6,6 +6,7 @@ export function WashieProvider ({ children }) {
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [phoneNo, setPhoneNo] = useState("");
     const [temperature, setTemperature] = useState("");
     const [color, setColor] = useState("");
     const [softner, setSoftner] = useState(false);
@@ -14,6 +15,7 @@ export function WashieProvider ({ children }) {
     const [detergent, setDetergent] = useState(false);
     const [order, setOrder] = useState(false);
     const [note, setNote] = useState("");
+    const [user, setUser] = useState("");
 
     return (
         <washieContext.Provider value = {{
@@ -23,6 +25,8 @@ export function WashieProvider ({ children }) {
             setPassword,
             email,
             setEmail,
+            phoneNo,
+            setPhoneNo,
             temperature,
             setTemperature,
             color,
@@ -33,7 +37,9 @@ export function WashieProvider ({ children }) {
             setDetergent,
             setSoftner,
             note,
-            setNote
+            setNote,
+            user,
+            setUser
         }}>
             { children }
         </washieContext.Provider>
