@@ -56,7 +56,13 @@ const Header = () => {
         </div>
         
         <div className='boxes'>
-          <Avatar onClick={() => setShowDp(true)} size={'sm'} cursor='pointer' name='mking' src={data.name}>
+          <Avatar 
+            onClick={() => setShowDp(!showDp)} 
+            size={'sm'} 
+            cursor='pointer' 
+            name={userName} 
+            src={data.name}
+          >
             <AvatarBadge boxSize={'1.25em'} bg='green.500' />
           </Avatar>
 
