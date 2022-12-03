@@ -70,12 +70,13 @@ const login = () => {
           setEmail('');
           setPassword('');
         })
-        .catch(() => {
+        .catch((error) => {
           setMsg(true);
             setTimeout(function () {
               setMsg(false)
             }, 1500)
           setIsLoading(false);
+          console.log(error.code)
         })
     } else {
       setShowError(true);

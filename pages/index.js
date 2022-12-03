@@ -55,7 +55,7 @@ export default function Home() {
     phoneNo,
     setPhoneNo
   } = useContext(washieContext);
-
+  
   const createUser = () => {
     if (password.length >= 8 && userName.length >= 3 && phoneNo.length > 0 && email !== '') {
       setIsLoading(true);

@@ -25,4 +25,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal {
+  transition: all 3s;
 }/*# sourceMappingURL=style.module.css.map */

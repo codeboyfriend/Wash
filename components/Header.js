@@ -9,10 +9,19 @@ import { FaHandsWash } from "react-icons/fa";
 import { useContext } from 'react';
 import washieContext from '../context/WashieContext';
 
+
 const Header = () => {
+
   const { 
-    userName
-  } = useContext(washieContext)
+    userName,
+    showDp,
+    data,
+    setData,
+    setShowDp,
+    handleSubmit,
+    hiddenFileInput
+  } = useContext(washieContext);
+
   return (
     <Box  
       className={styles.font}
@@ -47,9 +56,16 @@ const Header = () => {
         </div>
         
         <div className='boxes'>
-          <Avatar size={'sm'} cursor='pointer' name='mking' src='/pp.png'>
+          <Avatar onClick={() => setShowDp(true)} size={'sm'} cursor='pointer' name='mking' src={data.name}>
             <AvatarBadge boxSize={'1.25em'} bg='green.500' />
           </Avatar>
+
+          <input 
+            ref={hiddenFileInput}
+            style={{
+              display: 'none'
+            }} type={'file'} onChange={(e) => setData(e.target.files[0])} />
+          <button onClick={handleSubmit}>Submit</button>
         </div>
       </Box>
     </Box>
