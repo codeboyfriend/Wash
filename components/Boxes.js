@@ -1,7 +1,7 @@
-import { useContext  } from 'react';
+import { useContext, useState  } from 'react';
 import washieContext from '../context/WashieContext';
 import styles from '../css/style.module.css';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
     Box,
@@ -12,10 +12,15 @@ import {
     Textarea,
     Button,
     Checkbox,
-    CheckboxGroup 
+    CheckboxGroup ,
+    Alert,
+    AlertDescription,
+    AlertIcon
 } from '@chakra-ui/react';
 
 const Boxes = () => {
+    const router = useRouter();
+    const [showError, setShowError] = useState(false);
     const {
         color,
         setColor,
@@ -45,6 +50,19 @@ const Boxes = () => {
     const options = {
         display: 'flex',
         justifyContent: 'space-between'
+    }
+
+    const buttonClick = () => {
+        if (color !== '' && temperature !== '' && note !== '') {
+            router.push('/washOrder');
+            setShowError(false)
+        } else {
+            setShowError(true)
+
+            setTimeout(function () {
+                setShowError(false)
+              }, 1500)
+        }
     }
 
   return (
@@ -136,7 +154,7 @@ const Boxes = () => {
       </Box>
 
       <Box sx={box}>
-      <CheckboxGroup>
+        <CheckboxGroup>
             <Stack sx={options} direction='row'>
                 <Checkbox 
                     size='sm' 
@@ -149,13 +167,36 @@ const Boxes = () => {
         </CheckboxGroup>              
       </Box>
 
-      <Button colorScheme={'green'} size={'md'} sx={{
+        <Button onClick={() => buttonClick()} colorScheme={'green'} size={'md'} sx={{
             w: '100%',
             backgroundColor: '#007500',
             color: '#fff',
             fontWeight: '500',
             fontSize: '1rem'
-          }}>Next</Button>
+          }}>Next
+        </Button>
+
+        {showError && <Box sx={{
+            w: '100vw',
+            h: '100%',
+            pos: 'absolute',
+            top: 0,
+            left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backdropFilter: 'blur(5px)'
+          }}>
+            <Alert 
+              status='error' 
+              variant={'solid'}
+              w={'300px'}
+            >
+              <AlertIcon />
+              <AlertDescription>Enter necessary information</AlertDescription>
+            </Alert>
+          </Box>
+        }
     </Box>
   )
 }

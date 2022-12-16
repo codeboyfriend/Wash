@@ -1,27 +1,37 @@
 import { 
   Box,
   List,
-  Text
+  Text,
+  Button
 } from "@chakra-ui/react";
 import styles from '../css/style.module.css';
 import { useContext } from 'react';
 import washieContext from '../context/WashieContext';
+import { useRouter } from "next/router";
 
 const washOrder = () => {
+  const router = useRouter();
   const { 
-    color
+    color,
+    temperature,
+    note,
+    order
   } = useContext(washieContext)
 
   const box = {
     marginBottom: '2rem',
     backgroundColor: '#f5f5f5',
-    padding: ['.5rem', '1rem'],
+    padding: ['.8rem', '1rem'],
     borderRadius: '10px'
   }
 
   const head = {
-    fontWeight: '600',
+    fontWeight: '500',
     marginBottom: '.5rem'
+  }
+
+  const buttonClick = () => {
+    router.push('/wash')
   }
 
   return (
@@ -47,6 +57,56 @@ const washOrder = () => {
           </ul>
         </Box>
       </Box>
+
+      <Box sx={box}>
+        <Text sx={head}>Washing Temperature</Text>
+        <Box sx={{
+          paddingLeft: '2rem'
+        }}>
+          <ul>
+            <li>{ temperature }</li>
+          </ul>
+        </Box>
+      </Box>
+
+      <Box sx={box}>
+        <Text sx={head}>Other</Text>
+        <Box sx={{
+          paddingLeft: '2rem'
+        }}>
+          <ul>
+            <li>{ color }</li>
+          </ul>
+        </Box>
+      </Box>
+
+      <Box sx={box}>
+        <Text sx={head}>Additional note</Text>
+        <Box sx={{
+          padding: '.7rem'
+        }}>
+          { note }
+        </Box>
+      </Box>
+
+      {
+        order && <Box sx={box}>
+          <Text onClick={() => buttonClick()} sx={{
+            color: 'green',
+            fontWeight: '600',
+            fontSize: '.8rem'
+          }}>Customize Order</Text>
+        </Box>
+      }
+
+      <Button colorScheme={'green'} size={'md'} sx={{
+            w: '100%',
+            backgroundColor: '#007500',
+            color: '#fff',
+            fontWeight: '500',
+            fontSize: '1rem'
+          }}>Make Payment
+        </Button>
       </Box>      
     </Box>
   )

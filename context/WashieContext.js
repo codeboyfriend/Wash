@@ -86,7 +86,8 @@ export function WashieProvider ({ children }) {
             handleSubmit,
             hiddenFileInput,
             data,
-            setData
+            setData,
+            order
         }}>
             { children }
         </washieContext.Provider>
