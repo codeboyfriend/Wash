@@ -90,7 +90,7 @@ const washOrder = () => {
       </Box>
 
       {
-        order && <Box sx={box}>
+        order && <Box cursor={'pointer'} sx={box}>
           <Text onClick={() => buttonClick()} sx={{
             color: 'green',
             fontWeight: '600',

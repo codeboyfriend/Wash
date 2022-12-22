@@ -28,7 +28,7 @@ const Banner = () => {
         }}>10%</Text>
         <Text sx={{
           fontSize: ['.8rem', '1rem']
-        }}>Discount on all orders from 1st of December - 31 of January </Text>
+        }}>Discount on all orders from 1st of December - 31st of January </Text>
       </Box>
       <Box className={styles.rightBanner} sx={{
         w: '50%',

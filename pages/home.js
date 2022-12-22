@@ -20,7 +20,7 @@ const Home = () => {
   } = useContext(washieContext);
 
   return (
-    <Box onClick={() => setShowDp(!showDp)}>
+    <Box onClick={() => setShowDp(false)}>
       <Header />
       <Search />
       <Banner />
