@@ -72,25 +72,29 @@ const Service = () => {
         </Box>
       </Link>
 
-      <Box 
-        className="boxes"
-        sx={boxStyle}
-        border='2px solid rgba(57, 57, 172, 0.5)'
-        color={'#3939ad'}
-      >
-        <Text sx={iconStyles} border="1px solid rgba(57, 57, 172, 0.5)"><MdDryCleaning /></Text>
-        <Text sx={size}>Dry cleaning</Text>
-      </Box>
+      <Link href={'/drycleaning'}>
+        <Box 
+          className="boxes"
+          sx={boxStyle}
+          border='2px solid rgba(57, 57, 172, 0.5)'
+          color={'#3939ad'}
+        >
+          <Text sx={iconStyles} border="1px solid rgba(57, 57, 172, 0.5)"><MdDryCleaning /></Text>
+          <Text sx={size}>Dry cleaning</Text>
+        </Box>
+      </Link>
 
-      <Box 
-        className="boxes"
-        sx={boxStyle}
-        border='2px solid rgba(255, 165, 0, 0.5)'
-        color={'rgb(255, 165, 0)'}
-      >
-        <Text sx={iconStyles} border="1px solid rgba(255, 165, 0, 0.5)"><GiSewingNeedle /></Text>
-        <Text sx={size}>Darning</Text>
-      </Box>
+      <Link href={'/darning'}>
+        <Box 
+          className="boxes"
+          sx={boxStyle}
+          border='2px solid rgba(255, 165, 0, 0.5)'
+          color={'rgb(255, 165, 0)'}
+        >
+          <Text sx={iconStyles} border="1px solid rgba(255, 165, 0, 0.5)"><GiSewingNeedle /></Text>
+          <Text sx={size}>Darning</Text>
+        </Box>
+      </Link>
     </Box>
   )
 }

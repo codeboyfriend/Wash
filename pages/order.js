@@ -1,6 +1,5 @@
 import { 
   Box,
-  List,
   Text,
   Button
 } from "@chakra-ui/react";
@@ -15,7 +14,11 @@ const washOrder = () => {
     color,
     temperature,
     note,
-    order
+    order,
+    agent,
+    detergent,
+    softner,
+    heater
   } = useContext(washieContext)
 
   const box = {
@@ -75,7 +78,10 @@ const washOrder = () => {
           paddingLeft: '2rem'
         }}>
           <ul>
-            <li>{ color }</li>
+            {softner &&  <li>Softner</li>}
+            {agent &&  <li>Bleaching Agent</li>}
+            {heater &&  <li>Dry Heater</li>}
+            {detergent &&  <li>Secented Detergent</li>}
           </ul>
         </Box>
       </Box>

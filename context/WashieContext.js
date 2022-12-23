@@ -20,6 +20,7 @@ export function WashieProvider ({ children }) {
     const [user, setUser] = useState("");
     const [showDp, setShowDp] = useState(false);
     const [data, setData] = useState({});
+    const [displayProgress, setDisplayProgress] = useState('')
 
     const handleSubmit = () => {
         // Create a child reference
@@ -31,6 +32,7 @@ export function WashieProvider ({ children }) {
           (snapshot) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
+            setDisplayProgress(`${progress}%`);
             switch (snapshot.state) {
               case 'paused':
                 console.log('Upload is paused');
@@ -72,9 +74,13 @@ export function WashieProvider ({ children }) {
             color,
             setColor,
             setOrder,
+            agent,
             setAgent,
+            heater,
             setHeater,
+            detergent,
             setDetergent,
+            softner,
             setSoftner,
             note,
             setNote,
@@ -87,7 +93,8 @@ export function WashieProvider ({ children }) {
             hiddenFileInput,
             data,
             setData,
-            order
+            order,
+            displayProgress
         }}>
             { children }
         </washieContext.Provider>

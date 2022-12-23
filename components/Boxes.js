@@ -54,7 +54,7 @@ const Boxes = () => {
 
     const buttonClick = () => {
         if (color !== '' && temperature !== '' && note !== '') {
-            router.push('/washOrder');
+            router.push('/order');
             setShowError(false)
         } else {
             setShowError(true)
@@ -130,12 +130,12 @@ const Boxes = () => {
                     size='sm' 
                     colorScheme="green" 
                     onChange={(e) => setHeater(e.currentTarget.checked)}
-                >Dry heater</Checkbox>
+                >Dry Heater</Checkbox>
                 <Checkbox  
                     size='sm' 
                     colorScheme="green"
                     onChange={(e) => setDetergent(e.currentTarget.checked)}
-                >Secented detergent</Checkbox>
+                >Secented Detergent</Checkbox>
             </Stack>
         </CheckboxGroup>
       </Box>
