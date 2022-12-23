@@ -1,13 +1,10 @@
-import { useState, useContext } from 'react';
-import styles from '../css/style.module.css';
+import { useState, useEffect, useContext } from 'react';
 import Logo from '../components/Logo';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import washieContext from '../context/WashieContext';
+import styles from '../css/style.module.css';
 
 import { 
-  Box, 
-  Heading, 
+  Box,
   Text, 
   Stack,
   Input,
@@ -21,11 +18,9 @@ import {
   AlertDescription,
 } from '@chakra-ui/react';
 
-import { 
-  PhoneIcon,
+import {
   ViewIcon,
-  ViewOffIcon,
-  EditIcon 
+  ViewOffIcon
 } from "@chakra-ui/icons";
 
 import { 
@@ -33,56 +28,64 @@ import {
   FaKey 
 } from "react-icons/fa";
 
+import { useRouter } from 'next/router';
 import { app } from '../firebaseConfig';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
 
-export default function Home() {
+const login = () => {
   let auth = getAuth();
+  const currUser = auth.currentUser;
   const router = useRouter();
-  const [countryCode, setCountryCode] = useState('+234');
-  const [show, setShow] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [msg, setMsg] = useState(false);
-
-  const {
-    userName,
-    setUserName,
+  const { 
     email,
     setEmail,
     password,
     setPassword,
-    phoneNo,
-    setPhoneNo
-  } = useContext(washieContext);
+    setUser
+  } = useContext(washieContext)
+  const [show, setShow] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [msg, setMsg] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        setUser(currUser)
+      } else {
+        setUser('error')
+      }
+    })
+  }, [])
   
-  const createUser = () => {
-    if (password.length >= 8 && userName.length >= 3 && phoneNo.length > 0 && email !== '') {
+
+  const signinUser = () => {
+    if (password.length >= 8) {
       setIsLoading(true);
-    
-      createUserWithEmailAndPassword(auth, email, password)
+
+      signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           router.push('/home');
           setIsLoading(false);
           setEmail('');
           setPassword('');
-          setPhoneNo('');
         })
-        .catch(() => {
+        .catch((error) => {
           setMsg(true);
-          setTimeout(function () {
-            setMsg(false)
-          }, 1500)
+            setTimeout(function () {
+              setMsg(false)
+            }, 1500)
           setIsLoading(false);
+          console.log(error.code)
         })
     } else {
-      setShowToast(true);
+      setShowError(true);
       setTimeout(function () {
-        setShowToast(false)
+        setShowError(false)
       }, 1000)
     }
   }
-
+  
   return (
     <div className={styles.container}>
       <Box 
@@ -94,46 +97,8 @@ export default function Home() {
         }}
       >      
         <Logo />
-        <Box>
-          <Heading 
-            fontSize={'1.3rem'}
-            fontWeight={'500'}
-            marginBottom={'1.5'}
-          >Create an Account</Heading>
-        </Box>
 
-        <Box>
-          <Text
-            fontSize={'.8rem'}
-            marginBottom={'3'}
-          >Kindly fill out your details correctly.</Text>
-        </Box>
-
-        <Stack spacing={3}>
-          <div>
-            <label
-              style={{
-                fontSize: '.8rem'
-              }}
-            >Username</label>
-            <InputGroup>
-              <InputLeftAddon 
-                pointerEvents={'none'}
-                children={<EditIcon color={'gray.600'} />}
-              />
-              <Input 
-                type='text'
-                placeholder='at least 3 characters' 
-                name='name' 
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                sx={{
-                  fontSize: '.9rem'
-                }}
-              />
-            </InputGroup>
-          </div>
-
+        <Stack spacing={3}>          
           <div>
             <label
               style={{
@@ -147,44 +112,16 @@ export default function Home() {
               />
               <Input 
                 type='email'
+                value={email}
                 placeholder='washie@gmail.com' 
                 sx={{
                   fontSize: '.9rem'
                 }}
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </InputGroup>
           </div>
-
-          <div>
-            <label
-              style={{
-                fontSize: '.8rem'
-              }}
-            >Phone Number</label>
-            <InputGroup>
-              <InputLeftAddon
-                pointerEvents={'none'}
-                children={countryCode}
-              />
-              <Input 
-                type='number'
-                placeholder='9000000000' 
-                name='number' 
-                sx={{
-                  fontSize: '.9rem'
-                }}
-                value={phoneNo}
-                onChange={(e) => setPhoneNo(e.target.value)}
-              />
-              <InputRightAddon
-                pointerEvents={'none'}
-                children={<PhoneIcon color={'gray.600'} />}
-              />
-            </InputGroup>
-          </div>
-
+          
           <div>
             <label
               style={{
@@ -215,19 +152,18 @@ export default function Home() {
             </InputGroup>
           </div>
 
-          <Button onClick={() => createUser()} colorScheme={'green'} size={'md'} sx={{
-              backgroundColor: '#007500',
-              color: '#fff',
-              fontWeight: '500',
-              fontSize: '.9rem'
-            }}>Sign up</Button>
+          <Button onClick={() => signinUser()} colorScheme={'green'} size={'md'} sx={{
+            backgroundColor: '#007500',
+            color: '#fff',
+            fontWeight: '500',
+            fontSize: '.9rem'
+          }}>Login</Button>
         </Stack>
 
         <Text sx={{
           fontSize: '.9rem',
           marginTop: '1rem'
-        }}>Already have an account? <Link href="/login"><span className={styles.login}>Login</span></Link>
-        </Text>
+        }}>Don't have an account? <a href="/signup"><span className={styles.login}>Sign up</span></a></Text>
 
         {
           isLoading && <Box sx={{
@@ -251,7 +187,7 @@ export default function Home() {
           </Box>
         }
 
-        {showToast && <Box sx={{
+        {showError && <Box sx={{
             w: '100vw',
             h: '100vh',
             pos: 'absolute',
@@ -268,7 +204,7 @@ export default function Home() {
               w={'300px'}
             >
               <AlertIcon />
-              <AlertDescription>Enter neccessary information</AlertDescription>
+              <AlertDescription>Password is too short</AlertDescription>
             </Alert>
           </Box>
         }
@@ -290,7 +226,7 @@ export default function Home() {
               w={'300px'}
             >
               <AlertIcon />
-              <AlertDescription>An error occured! Try again.</AlertDescription>
+              <AlertDescription>Failed to login in! Try again.</AlertDescription>
             </Alert>
           </Box>
         }
@@ -298,3 +234,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default login

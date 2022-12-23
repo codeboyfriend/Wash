@@ -1,10 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
-import Logo from '../components/Logo';
-import washieContext from '../context/WashieContext';
+import { useState, useContext } from 'react';
 import styles from '../css/style.module.css';
+import Logo from '../components/Logo';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import washieContext from '../context/WashieContext';
 
 import { 
-  Box,
+  Box, 
+  Heading, 
   Text, 
   Stack,
   Input,
@@ -18,9 +21,11 @@ import {
   AlertDescription,
 } from '@chakra-ui/react';
 
-import {
+import { 
+  PhoneIcon,
   ViewIcon,
-  ViewOffIcon
+  ViewOffIcon,
+  EditIcon 
 } from "@chakra-ui/icons";
 
 import { 
@@ -28,64 +33,56 @@ import {
   FaKey 
 } from "react-icons/fa";
 
-import { useRouter } from 'next/router';
 import { app } from '../firebaseConfig';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-const login = () => {
+export default function Home() {
   let auth = getAuth();
-  const currUser = auth.currentUser;
   const router = useRouter();
-  const { 
+  const [countryCode, setCountryCode] = useState('+234');
+  const [show, setShow] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [msg, setMsg] = useState(false);
+
+  const {
+    userName,
+    setUserName,
     email,
     setEmail,
     password,
     setPassword,
-    setUser
-  } = useContext(washieContext)
-  const [show, setShow] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [msg, setMsg] = useState(false);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user !== null) {
-        setUser(currUser)
-      } else {
-        setUser('error')
-      }
-    })
-  }, [])
+    phoneNo,
+    setPhoneNo
+  } = useContext(washieContext);
   
-
-  const signinUser = () => {
-    if (password.length >= 8) {
+  const createUser = () => {
+    if (password.length >= 8 && userName.length >= 3 && phoneNo.length > 0 && email !== '') {
       setIsLoading(true);
-
-      signInWithEmailAndPassword(auth, email, password)
+    
+      createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
           router.push('/home');
           setIsLoading(false);
           setEmail('');
           setPassword('');
+          setPhoneNo('');
         })
-        .catch((error) => {
+        .catch(() => {
           setMsg(true);
-            setTimeout(function () {
-              setMsg(false)
-            }, 1500)
+          setTimeout(function () {
+            setMsg(false)
+          }, 1500)
           setIsLoading(false);
-          console.log(error.code)
         })
     } else {
-      setShowError(true);
+      setShowToast(true);
       setTimeout(function () {
-        setShowError(false)
+        setShowToast(false)
       }, 1000)
     }
   }
-  
+
   return (
     <div className={styles.container}>
       <Box 
@@ -97,8 +94,46 @@ const login = () => {
         }}
       >      
         <Logo />
+        <Box>
+          <Heading 
+            fontSize={'1.3rem'}
+            fontWeight={'500'}
+            marginBottom={'1.5'}
+          >Create an Account</Heading>
+        </Box>
 
-        <Stack spacing={3}>          
+        <Box>
+          <Text
+            fontSize={'.8rem'}
+            marginBottom={'3'}
+          >Kindly fill out your details correctly.</Text>
+        </Box>
+
+        <Stack spacing={3}>
+          <div>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Username</label>
+            <InputGroup>
+              <InputLeftAddon 
+                pointerEvents={'none'}
+                children={<EditIcon color={'gray.600'} />}
+              />
+              <Input 
+                type='text'
+                placeholder='at least 3 characters' 
+                name='name' 
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                sx={{
+                  fontSize: '.9rem'
+                }}
+              />
+            </InputGroup>
+          </div>
+
           <div>
             <label
               style={{
@@ -112,16 +147,44 @@ const login = () => {
               />
               <Input 
                 type='email'
-                value={email}
                 placeholder='washie@gmail.com' 
                 sx={{
                   fontSize: '.9rem'
                 }}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </InputGroup>
           </div>
-          
+
+          <div>
+            <label
+              style={{
+                fontSize: '.8rem'
+              }}
+            >Phone Number</label>
+            <InputGroup>
+              <InputLeftAddon
+                pointerEvents={'none'}
+                children={countryCode}
+              />
+              <Input 
+                type='number'
+                placeholder='9000000000' 
+                name='number' 
+                sx={{
+                  fontSize: '.9rem'
+                }}
+                value={phoneNo}
+                onChange={(e) => setPhoneNo(e.target.value)}
+              />
+              <InputRightAddon
+                pointerEvents={'none'}
+                children={<PhoneIcon color={'gray.600'} />}
+              />
+            </InputGroup>
+          </div>
+
           <div>
             <label
               style={{
@@ -152,18 +215,19 @@ const login = () => {
             </InputGroup>
           </div>
 
-          <Button onClick={() => signinUser()} colorScheme={'green'} size={'md'} sx={{
-            backgroundColor: '#007500',
-            color: '#fff',
-            fontWeight: '500',
-            fontSize: '.9rem'
-          }}>Login</Button>
+          <Button onClick={() => createUser()} colorScheme={'green'} size={'md'} sx={{
+              backgroundColor: '#007500',
+              color: '#fff',
+              fontWeight: '500',
+              fontSize: '.9rem'
+            }}>Sign up</Button>
         </Stack>
 
         <Text sx={{
           fontSize: '.9rem',
           marginTop: '1rem'
-        }}>Don't have an account? <a href="/"><span className={styles.login}>Sign up</span></a></Text>
+        }}>Already have an account? <Link href="/"><span className={styles.login}>Login</span></Link>
+        </Text>
 
         {
           isLoading && <Box sx={{
@@ -187,7 +251,7 @@ const login = () => {
           </Box>
         }
 
-        {showError && <Box sx={{
+        {showToast && <Box sx={{
             w: '100vw',
             h: '100vh',
             pos: 'absolute',
@@ -204,7 +268,7 @@ const login = () => {
               w={'300px'}
             >
               <AlertIcon />
-              <AlertDescription>Password is too short</AlertDescription>
+              <AlertDescription>Enter neccessary information</AlertDescription>
             </Alert>
           </Box>
         }
@@ -226,7 +290,7 @@ const login = () => {
               w={'300px'}
             >
               <AlertIcon />
-              <AlertDescription>Failed to login in! Try again.</AlertDescription>
+              <AlertDescription>An error occured! Try again.</AlertDescription>
             </Alert>
           </Box>
         }
@@ -234,5 +298,3 @@ const login = () => {
     </div>
   )
 }
-
-export default login

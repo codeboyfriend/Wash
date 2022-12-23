@@ -71,7 +71,7 @@ const Header = () => {
             style={{
               display: 'none'
             }} type={'file'} onChange={(e) => setData(e.target.files[0])} />
-          <button onClick={handleSubmit}>Submit</button>
+          {/* <button onClick={handleSubmit}>Submit</button> */}
         </div>
       </Box>
     </Box>
