@@ -46,6 +46,7 @@ const Home = () => {
             objectFit={'cover'}
             borderRadius={'10px'}
             src='/pp.png' 
+            alt="dp"
           />
 
           <Button onClick={handleClick}  colorScheme={'green'} size={'sm'} sx={{
